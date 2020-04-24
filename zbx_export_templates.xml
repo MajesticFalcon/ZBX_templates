@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-04-24T02:28:32Z</date>
+    <groups>
+        <group>
+            <name>Templates/Network devices</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Ruckus per wlan bps</template>
+            <name>Ruckus per wlan bps</name>
+            <groups>
+                <group>
+                    <name>Templates/Network devices</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>WLAN Rx Bytes</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>discovery[{#SNMP_COUNT},.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.14,{#SNMP_WLAN},.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.1]</snmp_oid>
+                    <key>ruckusZDWLANRxBytes</key>
+                    <delay>5m</delay>
+                    <port>161</port>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>rx bytes for {#SNMP_WLAN}</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.14.{#SNMPINDEX}</snmp_oid>
+                            <key>wlan_[{#SNMP_WLAN}_{#SNMPINDEX}]</key>
+                            <delay>5m</delay>
+                            <units>bps</units>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>8</params>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>WLAN Tx Bytes</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>discovery[{#SNMP_COUNT},.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.16,{#SNMP_WLAN},.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.1]</snmp_oid>
+                    <key>ruckusZDWLANTxBytes</key>
+                    <delay>5m</delay>
+                    <port>161</port>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>tx bytes for {#SNMP_WLAN}</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>.1.3.6.1.4.1.25053.1.2.2.1.1.1.1.1.16.{#SNMPINDEX}</snmp_oid>
+                            <key>wlan_[{#SNMP_WLAN}_{#SNMPINDEX}_tx]</key>
+                            <delay>5m</delay>
+                            <units>bps</units>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>8</params>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
