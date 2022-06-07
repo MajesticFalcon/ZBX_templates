@@ -2,4 +2,4 @@
 
 Ruckus Zone director
 
-Adtran TA5000
+Adtran zabbix template (Total Access 5000)
