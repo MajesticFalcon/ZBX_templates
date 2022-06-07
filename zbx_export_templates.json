@@ -1,0 +1,139 @@
+{
+    "zabbix_export": {
+        "version": "5.4",
+        "date": "2022-06-07T19:22:29Z",
+        "groups": [
+            {
+                "uuid": "5d512736d9d642bca9e62e64ee5f6c20",
+                "name": "Adtran"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "74663d19f2884e8c87c940a6a1c1fb71",
+                "template": "Templates Adtran Total Access 5000",
+                "name": "Templates Adtran Total Access 5000",
+                "groups": [
+                    {
+                        "name": "Adtran"
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "78fd0443229740259c95dbb1fab55ab0",
+                        "name": "Discover ONTs",
+                        "type": "SNMP_AGENT",
+                        "snmp_oid": "discovery[{#ONTSERIAL},ADTRAN-GENGPON-MIB::adGenGponOntSerialNumber,{#ONTNAME},ADTRAN-GENGPON-MIB::adGenGponOntDescriptionString]",
+                        "key": "adtran_ont_discovery",
+                        "item_prototypes": [
+                            {
+                                "uuid": "263017cf9f5848589e0c06e901652c15",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - RX Power (OLT<-ONT)",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntRssi.{#SNMPINDEX}",
+                                "key": "adtran_olt_ont_rx_power.[{#SNMPINDEX}]",
+                                "units": "dBm",
+                                "description": "adGenGponOntRssi OBJECT-TYPE\n          SYNTAX         Integer32\n          MAX-ACCESS     read-only\n          STATUS         current\n          DESCRIPTION\n           \"The OLT's RSSI (Received Signal Strength Indicatior) for this GPON ONT's optical signal.\n           It is a measurement of this GPON ONT's optical transceiver power level(0.1dBm), received\n           by the GPON OLT's optical transceiver. The default value -9999 indicates that the value is not available.\"\n          ::= { adGenGponOntStatusEntry 16 }",
+                                "preprocessing": [
+                                    {
+                                        "type": "MULTIPLIER",
+                                        "parameters": [
+                                            "0.1"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "7a496d9eaa194f01b3e92600cec16fec",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - Downstream Bip Errors",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntDownstreamBIPError.{#SNMPINDEX}",
+                                "key": "adtran_ont_downstream_bip_errors.[{#SNMPINDEX}]",
+                                "value_type": "FLOAT",
+                                "description": "adGenGponOntDownstreamBIPError OBJECT-TYPE\n          SYNTAX         Counter32\n          MAX-ACCESS     read-only\n          STATUS         current\n          DESCRIPTION\n          \"The rolling counter of BIP (Bit-Interleaved Parity) errors for the ONT's downstream traffic flow:\n          OLT => ONT\"\n          ::= { adGenGponOntStatusEntry 22 }"
+                            },
+                            {
+                                "uuid": "52fa303e328b41e3911f7e079e6e165b",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - State",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntOperState.{#SNMPINDEX}",
+                                "key": "adtran_ont_operation_state.[{#SNMPINDEX}]",
+                                "valuemap": {
+                                    "name": "ADTRAN_OPERATION_STATES"
+                                }
+                            },
+                            {
+                                "uuid": "54c3d600ad2a4c38ba9f7e08fb8e49d2",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - TX Power (ONT->OLT)",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntTxPower.{#SNMPINDEX}",
+                                "key": "adtran_ont_txpower.[{#SNMPINDEX}]",
+                                "value_type": "FLOAT",
+                                "units": "dBm",
+                                "description": "adGenGponOntTxPower OBJECT-TYPE\n          SYNTAX         Integer32\n          UNITS          \"tenth of dBm\"\n          MAX-ACCESS     read-only\n          STATUS         current\n          DESCRIPTION\n           \"The ONT's transmit optical signal level.\n           It is a measurement of the ONT's optical launch power (tenths of dBm).\n           The default value -9999 indicates that the value is not available.\"\n          ::= { adGenGponOntStatusEntry 33 }",
+                                "preprocessing": [
+                                    {
+                                        "type": "MULTIPLIER",
+                                        "parameters": [
+                                            "0.1"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "72982be859ce41c0bbe06412156f940d",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - Upstream Bip Errors",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntUpstreamBIPError.{#SNMPINDEX}",
+                                "key": "adtran_ont_upstream_bip_errors.[{#SNMPINDEX}]",
+                                "value_type": "FLOAT",
+                                "description": "adGenGponOntUpstreamBIPError OBJECT-TYPE\n          SYNTAX         Counter32\n          MAX-ACCESS     read-only\n          STATUS         current\n          DESCRIPTION\n          \"The rolling counter of BIP (Bit-Interleaved Parity) errors for the ONT's upstream traffic flow:\n          ONT => OLT\"\n          ::= { adGenGponOntStatusEntry 21 }"
+                            },
+                            {
+                                "uuid": "01dba819f2f14d0f88f256051dd67e65",
+                                "name": "{#ONTNAME} - {#ONTSERIAL} - Upstream DBRu (CRC)",
+                                "type": "SNMP_AGENT",
+                                "snmp_oid": "ADTRAN-GENGPON-MIB::adGenGponOntUpstreamBadDBRuCounter.{#SNMPINDEX}",
+                                "key": "adtran_ont_upstream_dbru.[{#SNMPINDEX}]",
+                                "value_type": "FLOAT",
+                                "description": "adGenGponOntUpstreamBadDBRuCounter OBJECT-TYPE\n          SYNTAX         Counter32\n          MAX-ACCESS     read-only\n          STATUS         current\n          DESCRIPTION\n          \"The rolling counter of Bad (CRC error) DBRu (Dynamic Bandwidth Report Upstream) for the ONT's upstream traffic:\n          ONT => OLT\"\n          ::= { adGenGponOntStatusEntry 24 }"
+                            }
+                        ]
+                    }
+                ],
+                "valuemaps": [
+                    {
+                        "uuid": "0d902c4821fa422aac29600f17cab82e",
+                        "name": "ADTRAN_OPERATION_STATES",
+                        "mappings": [
+                            {
+                                "value": "0",
+                                "newvalue": "init"
+                            },
+                            {
+                                "value": "1",
+                                "newvalue": "discovered"
+                            },
+                            {
+                                "value": "2",
+                                "newvalue": "discovering"
+                            },
+                            {
+                                "value": "3",
+                                "newvalue": "rejected"
+                            },
+                            {
+                                "value": "4",
+                                "newvalue": "up"
+                            },
+                            {
+                                "value": "5",
+                                "newvalue": "down"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
