@@ -1,0 +1,191 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    -
+      uuid: 84eb9fe91de944c4af2593f1ef45c136
+      name: Templates/Environment
+  templates:
+    -
+      uuid: 694a2abb0da8413a806e342e03bdd3bb
+      template: 'Vertiv Watchdog 100P'
+      name: 'Vertiv Watchdog 100P'
+      groups:
+        -
+          name: Templates/Environment
+      items:
+        -
+          uuid: 8288074ef9b8492a8f8cbedd123aa496
+          name: 'Analog 1'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalIO1.1'
+          key: internalAnalog1
+          valuemap:
+            name: 'Dry contact Map'
+        -
+          uuid: 4f532761cc4e422aab10363c57aa8e20
+          name: 'Analog 2'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalIO2.1'
+          key: internalAnalog2
+          valuemap:
+            name: 'Dry contact Map'
+        -
+          uuid: 6149a41530e3499bb5722c893ad2e478
+          name: 'Analog 3'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalIO3.1'
+          key: internalAnalog3
+          valuemap:
+            name: 'Dry contact Map'
+        -
+          uuid: 7e2647634771468f92de6dc0b88b9710
+          name: 'Analog 4'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalIO4.1'
+          key: internalAnalog4
+          valuemap:
+            name: 'Dry contact Map'
+        -
+          uuid: efcaa915518a4841b8728afe818fa176
+          name: Availability
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalAvail.1'
+          key: internalAvailability
+          valuemap:
+            name: 'Availability Map'
+        -
+          uuid: 679d0fc077be4e7798696c5da70e218e
+          name: 'Dew Point'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalDewPoint.1'
+          key: internalDewpoint
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '0.1'
+        -
+          uuid: 02b89dd100124eae9f5d012fc9117921
+          name: Humidity
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalHumidity.1'
+          key: internalHumidity
+          value_type: FLOAT
+          units: '%'
+        -
+          uuid: b9159ff3db694abab52c228f8a9a7ecf
+          name: 'Relay Status'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalRelayState.1'
+          key: internalRelayStatus
+          valuemap:
+            name: 'Dry contact Map'
+        -
+          uuid: 78c0be831af34e31b91a39140523a3be
+          name: 'Serial Number'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalSerial.1'
+          key: internalSerial
+          delay: 1d
+          trends: '0'
+          value_type: TEXT
+        -
+          uuid: ee6b27220ead45f5a888217a22e22453
+          name: Temperature
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:internalTemp.1'
+          key: internalTemp
+          value_type: FLOAT
+          units: F
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '0.1'
+            -
+              type: RTRIM
+              parameters:
+                - '0'
+        -
+          uuid: 377a2acfcdc3442eabea99007e8aafdd
+          name: 'T3HD Availability'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:t3hdSensorAvail.1'
+          key: t3hdAvailability
+          valuemap:
+            name: 'Availability Map'
+        -
+          uuid: 5315860cf3584e05a23eef3f7affd699
+          name: 'T3HD Dewpoint'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:t3hdSensorIntDewPoint.1'
+          key: t3hdIntDewpoint
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '0.1'
+        -
+          uuid: a4b76411d60d428a92caa6d5c83fd385
+          name: 'T3HD Humidity'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:t3hdSensorIntHumidity.1'
+          key: t3hdIntHumidity
+          units: '%'
+        -
+          uuid: 2f2807f027ec4620a3423ba5c69a58fc
+          name: 'T3HD Temperature'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:t3hdSensorIntTemp.1'
+          key: t3hdIntTemp
+          units: F
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '0.1'
+        -
+          uuid: a2647fb44bf14d349658e60d234290b7
+          name: 'T3HD Serial Number'
+          type: SNMP_AGENT
+          snmp_oid: 'VERTIV-BB-MIB:t3hdSensorSerial.1'
+          key: t3hdSerial
+          trends: '0'
+          value_type: TEXT
+      discovery_rules:
+        -
+          uuid: 0729eab733024ac082cb68c3003a312a
+          name: 'T3HD Sensor A Discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[ {#T3STATUS},VERTIV-BB-MIB:t3hdSensorExtAAvail, {#T3LABEL},VERTIV-BB-MIB:t3hdSensorExtALabel,{#T3TEMP},VERTIV-BB-MIB:t3hdSensorExtATemp]'
+          key: t3hdSensorADiscovery
+        -
+          uuid: 7064fcb9672140058457849dbdf4e79f
+          name: 'T3HD Sensor B Discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[ {#T3STATUS},VERTIV-BB-MIB:t3hdSensorExtBAvail, {#T3LABEL},VERTIV-BB-MIB:t3hdSensorExtBLabel,{#T3TEMP},VERTIV-BB-MIB:t3hdSensorExtBTemp]'
+          key: t3hdSensorBDiscovery
+      valuemaps:
+        -
+          uuid: 8b5d341487e6498180c27c4e763a9991
+          name: 'Availability Map'
+          mappings:
+            -
+              value: '0'
+              newvalue: Unavailable
+            -
+              value: '1'
+              newvalue: Available
+            -
+              value: '2'
+              newvalue: 'Partially Unavailable'
+        -
+          uuid: 6f371a75cdca47a19e68b5b5cd66c136
+          name: 'Dry contact Map'
+          mappings:
+            -
+              value: '0'
+              newvalue: Open
+            -
+              value: '1'
+              newvalue: Closed
